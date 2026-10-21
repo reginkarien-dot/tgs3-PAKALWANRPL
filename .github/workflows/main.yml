@@ -1,27 +1,26 @@
-name: Build EXE
+
+name: Build C++ EXE
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Ambil source code
+        uses: actions/checkout@v4
 
-    - name: Setup MSVC (Compiler)
-      uses: microsoft/setup-msbuild@v2
+      - name: Compile C++ menjadi EXE
+        shell: pwsh
+        run: |
+          g++ kasir.cpp -o kasir.exe
 
-    - name: Compile C++ to EXE
-      run: g++ kasir.cpp -o mini_kasir.exe
-
-    - name: Upload EXE as Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: program-kasir-exe
-        path: mini_kasir.exe
+      - name: Upload file EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: aplikasi-kasir
+          path: kasir.exe
